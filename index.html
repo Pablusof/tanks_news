@@ -100,8 +100,6 @@ footer{max-width:800px;margin:0 auto;padding:20px;border-top:1px solid var(--lin
 @keyframes kb{from{transform:scale(1)}to{transform:scale(1.07)}}
 @keyframes fadein{from{opacity:0}to{opacity:1}}
 .hero[data-v=""] .bg i{position:absolute;inset:0}
-.hero[data-v=""] .bg .m{animation:xf 12s ease-in-out infinite}
-.hero[data-v=""] .bg .w{animation:xf 12s ease-in-out infinite -6s}
 .hero .bg i::after{animation:kb 16s ease-in-out infinite alternate}
 .hero.swap .bg{animation:fadein .7s ease}
 .hero .txt>*{animation:up .8s ease backwards}.hero .txt>*:nth-child(2){animation-delay:.15s}
@@ -115,6 +113,22 @@ footer{max-width:800px;margin:0 auto;padding:20px;border-top:1px solid var(--lin
 .bar nav a:hover::after,.bar nav a[aria-current]::after{transform:scaleX(1)}
 .btn:hover{transform:translateY(-2px)}.btn{transition:transform .2s,box-shadow .25s,background .25s,color .25s}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+
+/* ---- 4 слайда на главной ---- */
+@keyframes xf4{0%,19%{opacity:1}25%,94%{opacity:0}100%{opacity:1}}
+.hero[data-v=""] .bg .n1{animation:xf4 24s linear infinite 0s}
+.hero[data-v=""] .bg .m{animation:xf4 24s linear infinite -18s}
+.hero[data-v=""] .bg .n2{animation:xf4 24s linear infinite -12s}
+.hero[data-v=""] .bg .w{animation:xf4 24s linear infinite -6s}
+.hero:not([data-v=""]) .bg .n{display:none}
+.hero .bg i.n::before,.hero .bg i.n::after{display:none}
+.hero .bg .art{position:absolute;inset:0;width:100%;height:100%;animation:kb 16s ease-in-out infinite alternate}
+.hero .bg .n .t{position:absolute;inset:0 0 76px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 16px;color:#fff;text-shadow:0 3px 18px rgba(0,0,0,.65)}
+.hero .bg .n b{font-size:clamp(2rem,6.4vw,4.8rem);line-height:1;text-transform:uppercase;letter-spacing:.02em;font-weight:700}
+.hero .bg .n small{margin-top:12px;font-size:clamp(.8rem,1.6vw,1.1rem);text-transform:uppercase;letter-spacing:.12em;font-weight:700;color:#ffd27a}
+.hero h1{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.hero.adm h1{position:static;width:auto;height:auto;clip:auto;white-space:normal}
+.hero .txt{justify-content:flex-end}.hero.adm .txt{justify-content:space-between}
 </style>
 </head>
 <body>
@@ -128,7 +142,7 @@ footer{max-width:800px;margin:0 auto;padding:20px;border-top:1px solid var(--lin
 </div></div>
 
 <section class="hero" id="hero" data-v="" aria-label="Главная новость">
-  <div class="bg" aria-hidden="true"><i class="m"></i><i class="w"></i></div>
+  <div class="bg" aria-hidden="true"><i class="n n1"><svg class="art" viewBox="0 0 1600 380" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="a1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2d353a"/><stop offset="1" stop-color="#0e1113"/></linearGradient></defs><rect width="1600" height="380" fill="url(#a1)"/><path d="M-60 380 L420 0 H570 L90 380Z" fill="#ee4c1b" opacity=".9"/><path d="M110 380 L590 0 H625 L145 380Z" fill="#9aa6ab" opacity=".55"/><path d="M1660 380 L1180 0 H1030 L1510 380Z" fill="#ee4c1b" opacity=".9"/><path d="M1490 380 L1010 0 H975 L1455 380Z" fill="#9aa6ab" opacity=".55"/><use href="#tk" x="150" y="225" width="250" height="109" style="color:#05070a" opacity=".85"/><use href="#tk" x="1200" y="225" width="250" height="109" style="color:#05070a" opacity=".85"/></svg><div class="t"><b>Новости о танках</b><small>Мир танков · World of Tanks</small></div></i><i class="m"></i><i class="n n2"><svg class="art" viewBox="0 0 1600 380" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="a2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5b6a3c"/><stop offset="1" stop-color="#1e2614"/></linearGradient><pattern id="hz" width="48" height="48" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)"><rect width="24" height="48" fill="#e3a600"/><rect x="24" width="24" height="48" fill="#111"/></pattern></defs><rect width="1600" height="380" fill="url(#a2)"/><path d="M0 60 L380 0 L520 140 L180 230Z" fill="#2c3820" opacity=".45"/><path d="M620 380 L900 190 L1180 300 L1100 380Z" fill="#2c3820" opacity=".45"/><path d="M1200 0 L1600 40 L1600 220 L1320 160Z" fill="#8a9a5b" opacity=".3"/><path d="M300 380 L520 250 L700 380Z" fill="#8a9a5b" opacity=".25"/><use href="#tk" x="1030" y="95" width="520" height="227" style="color:#0f140a" opacity=".6"/><use href="#tk" x="60" y="190" width="300" height="131" style="color:#0f140a" opacity=".6"/><rect y="0" width="1600" height="14" fill="url(#hz)"/><rect y="366" width="1600" height="14" fill="url(#hz)"/></svg><div class="t"><b>Новости о танках</b><small>Обновления · События · Киберспорт</small></div></i><i class="w"></i></div>
   <div class="glow"></div>
   <div class="txt">
     <h1 id="ttl">Новости о танках</h1>
@@ -188,7 +202,7 @@ function card(n,i){
 function show(quiet){
  const k=(location.hash||"").slice(1),all=sorted(),p=all.find(n=>n.id===k),ad=k==="admin";
  const sec=p?p.game:(NAME[k]?k:""),cur=ad?"admin":sec;
- {const h=t("hero"),nv=ad?"":sec;if(h.dataset.v!==nv){h.dataset.v=nv;h.classList.remove("swap");void h.offsetWidth;h.classList.add("swap")}}t("ttl").textContent=ad?"Админ-панель":(sec?NAME[sec]:"Новости о танках");
+ {const h=t("hero"),nv=ad?"":sec;h.classList.toggle("adm",ad);if(h.dataset.v!==nv){h.dataset.v=nv;h.classList.remove("swap");void h.offsetWidth;h.classList.add("swap")}}t("ttl").textContent=ad?"Админ-панель":(sec?NAME[sec]:"Новости о танках");
  t("adminLink").hidden=!isAdmin;
  document.querySelectorAll(".btn[data-v],.bar nav a").forEach(b=>b.toggleAttribute("aria-current",b.dataset.v===cur));
  const list=sec?all.filter(n=>n.game===sec):all;
