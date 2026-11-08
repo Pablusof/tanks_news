@@ -93,6 +93,28 @@ footer{max-width:800px;margin:0 auto;padding:20px;border-top:1px solid var(--lin
 .hero[data-v=wot] .txt,.hero[data-v=mir-tankov] .txt{justify-content:flex-end}
 .hero .txt h1{margin:0}
 @media (max-width:760px){.hero{height:300px}}
+
+/* ---- анимации ---- */
+@keyframes xf{0%,40%{opacity:1}50%,90%{opacity:0}100%{opacity:1}}
+@keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes kb{from{transform:scale(1)}to{transform:scale(1.07)}}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+.hero[data-v=""] .bg i{position:absolute;inset:0}
+.hero[data-v=""] .bg .m{animation:xf 12s ease-in-out infinite}
+.hero[data-v=""] .bg .w{animation:xf 12s ease-in-out infinite -6s}
+.hero .bg i::after{animation:kb 16s ease-in-out infinite alternate}
+.hero.swap .bg{animation:fadein .7s ease}
+.hero .txt>*{animation:up .8s ease backwards}.hero .txt>*:nth-child(2){animation-delay:.15s}
+.head,#post,#admin,.empty{animation:up .5s ease backwards}
+.card{animation:up .6s ease backwards;animation-delay:calc(var(--i,0)*70ms);transition:transform .25s ease,border-color .25s,box-shadow .25s}
+.card:hover,.card:focus-visible{transform:translateY(-5px);border-color:var(--orange);box-shadow:0 10px 26px rgba(238,76,27,.2)}
+.img svg,.img img.pic{transition:transform .5s ease}
+.card:hover .img img.pic{transform:scale(1.07)!important}
+.bar nav a{position:relative;padding-bottom:3px}
+.bar nav a::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:2px;background:var(--orange);transform:scaleX(0);transform-origin:left;transition:transform .3s ease}
+.bar nav a:hover::after,.bar nav a[aria-current]::after{transform:scaleX(1)}
+.btn:hover{transform:translateY(-2px)}.btn{transition:transform .2s,box-shadow .25s,background .25s,color .25s}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
@@ -105,7 +127,7 @@ footer{max-width:800px;margin:0 auto;padding:20px;border-top:1px solid var(--lin
   <nav><a href="#" data-v="">Все новости</a><a href="#mir-tankov" data-v="mir-tankov">Мир танков</a><a href="#wot" data-v="wot">World of Tanks</a><a href="#admin" data-v="admin" id="adminLink" hidden>Админ</a></nav>
 </div></div>
 
-<section class="hero" id="hero" aria-label="Главная новость">
+<section class="hero" id="hero" data-v="" aria-label="Главная новость">
   <div class="bg" aria-hidden="true"><i class="m"></i><i class="w"></i></div>
   <div class="glow"></div>
   <div class="txt">
@@ -159,22 +181,22 @@ const fmt=d=>String(d||"").split("-").reverse().join(".");
 const grad=n=>n.g||GR[[...n.id].reduce((a,c)=>a+c.charCodeAt(0),0)%GR.length];
 const pic=n=>n.img?'<img class="pic" src="'+esc(n.img)+'" alt="">':TK;
 const sorted=()=>DATA.slice().sort((a,b)=>String(b.d).localeCompare(String(a.d))||(b.ts||0)-(a.ts||0));
-function card(n){
- const a=document.createElement("a");a.className="card";a.href="#"+n.id;
+function card(n,i){
+ const a=document.createElement("a");a.className="card";a.style.setProperty("--i",i||0);a.href="#"+n.id;
  a.innerHTML='<div class="img" style="--g:'+esc(grad(n))+'">'+pic(n)+(n.b?'<i>'+esc(n.b)+'</i>':'')+'<p class="tip">'+esc(n.s)+'</p></div><div class="body"><h3>'+esc(n.t)+'</h3><span class="date">'+fmt(n.d)+'</span></div>';
  return a}
 function show(quiet){
  const k=(location.hash||"").slice(1),all=sorted(),p=all.find(n=>n.id===k),ad=k==="admin";
  const sec=p?p.game:(NAME[k]?k:""),cur=ad?"admin":sec;
- t("hero").dataset.v=ad?"":sec;t("ttl").textContent=ad?"Админ-панель":(sec?NAME[sec]:"Новости о танках");
+ {const h=t("hero"),nv=ad?"":sec;if(h.dataset.v!==nv){h.dataset.v=nv;h.classList.remove("swap");void h.offsetWidth;h.classList.add("swap")}}t("ttl").textContent=ad?"Админ-панель":(sec?NAME[sec]:"Новости о танках");
  t("adminLink").hidden=!isAdmin;
  document.querySelectorAll(".btn[data-v],.bar nav a").forEach(b=>b.toggleAttribute("aria-current",b.dataset.v===cur));
  const list=sec?all.filter(n=>n.game===sec):all;
  ["head","r1","r2"].forEach(id=>t(id).hidden=!!p||ad);
  t("h2").textContent=sec?HEAD[sec]:"Последние новости";t("all").hidden=!!sec;
  t("r1").innerHTML="";t("r2").innerHTML="";
- list.slice(0,3).forEach(n=>t("r1").appendChild(card(n)));
- list.slice(3).forEach(n=>t("r2").appendChild(card(n)));
+ list.slice(0,3).forEach((n,i)=>t("r1").appendChild(card(n,i)));
+ list.slice(3).forEach((n,i)=>t("r2").appendChild(card(n,i+3)));
  t("empty").hidden=!!p||ad||list.length>0;
  t("admin").hidden=!ad;t("login").hidden=isAdmin;t("panel").hidden=!isAdmin;if(ad&&isAdmin)renderAdmin();
  const post=t("post");post.hidden=!p;
